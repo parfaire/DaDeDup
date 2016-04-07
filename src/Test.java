@@ -6,7 +6,7 @@ public class Test {
     private static String READPATH = "/Users/parfaire/IdeaProjects/DataDeduplication/READ/";
     private static String out = READPATH+"input.txt";
     private static String in = PATH+"input2.txt";
-    private static String storage = PATH+"output.txt";
+    private static String storage = PATH+"storage.txt";
     private static String ddtfile = PATH+"ddt.txt";
     private static String hashFunc = "SHA-256";
     private static int blockSize = 32; //32 bytes = 256bits
@@ -15,9 +15,9 @@ public class Test {
     public static void main(String[] args) {
         ddt = Interface.loadddt(ddtfile);
 
-        Interface.read(out,storage,ddt);
+        Interface.write(out,storage,ddt);
 
-        //Interface.write(in,storage,ddt,hashFunc,blockSize);
+        //Interface.read(in,storage,ddt,hashFunc,blockSize);
 
         //Interface.saveddt(ddtfile,ddt);
 

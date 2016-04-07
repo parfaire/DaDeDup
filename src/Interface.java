@@ -4,7 +4,7 @@ import java.security.MessageDigest;
 import java.util.HashMap;
 
 public class Interface {
-    static public void read(String out, String storage, HashMap<Long,Data> ddt){
+    static public void write(String out, String storage, HashMap<Long,Data> ddt){
         try {
             RandomAccessFile read = new RandomAccessFile(storage,"r");
             FileOutputStream fos = new FileOutputStream(new File(out), true);
@@ -18,7 +18,7 @@ public class Interface {
 
     }
 
-    static public void write(String in, String storage, HashMap<Long,Data> ddt, String hashFunc, int blockSize){
+    static public void read(String in, String storage, HashMap<Long,Data> ddt, String hashFunc, int blockSize){
         try {
             MessageDigest digest = MessageDigest.getInstance(hashFunc);
             FileInputStream fis = new FileInputStream(new File(in));
