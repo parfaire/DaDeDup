@@ -13,20 +13,29 @@ public class Data implements Serializable {
         next.put(filename,checksum);
     }
 
-    public void add(String filename, Long checksum){
+    void add(String filename, Long checksum){
         if(!next.containsKey(filename))
             next.put(filename,checksum);
     }
 
-    public int getReferenceCount(){
+    int getReferenceCount(){
         return next.size();
     }
 
-    public int getOffset(){
+    int getOffset(){
         return offset;
     }
 
-    public int getLen(){
+    int getLen(){
         return len;
+    }
+
+    Long getNext(String filename){
+        return next.get(filename);
+    }
+
+    @Override
+    public String toString() {
+        return "offset:"+offset+"\t len:"+len+"\t next:"+Test.showHM(next);
     }
 }
