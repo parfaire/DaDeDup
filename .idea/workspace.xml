@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4617d563-7de1-4b3e-ab1e-af2110929264" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/MainWindow.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Controller.java" afterPath="$PROJECT_DIR$/src/Controller.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/InterfacePanel.java" afterPath="$PROJECT_DIR$/src/InterfacePanel.java" />
@@ -29,31 +28,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Main.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Controller.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="20" column="18" selection-start-line="20" selection-start-column="18" selection-end-line="20" selection-end-column="18" />
-              <folding />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MainWindow.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MainWindow.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/MainWindow.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+            <state relative-caret-position="405">
+              <caret line="31" column="21" selection-start-line="31" selection-start-column="21" selection-end-line="31" selection-end-column="21" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#416#417#0" expanded="true" />
@@ -141,8 +132,20 @@
       <file leaf-file-name="InterfacePanel.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/InterfacePanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1545">
+            <state relative-caret-position="1605">
               <caret line="107" column="67" selection-start-line="107" selection-start-column="57" selection-end-line="107" selection-end-column="67" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ListPanel.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/ListPanel.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="22" column="37" selection-start-line="22" selection-start-column="37" selection-end-line="22" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -191,12 +194,12 @@
         <option value="$PROJECT_DIR$/src/MainWindow.java" />
         <option value="$PROJECT_DIR$/src/ListPanel.java" />
         <option value="$PROJECT_DIR$/src/Main.java" />
-        <option value="$PROJECT_DIR$/src/Controller.java" />
         <option value="$PROJECT_DIR$/src/InterfacePanel.java" />
         <option value="$PROJECT_DIR$/src/Data.java" />
         <option value="$PROJECT_DIR$/src/ByteWrapper.java" />
         <option value="$PROJECT_DIR$/dd/ddt.txt" />
         <option value="$PROJECT_DIR$/dd/init.txt" />
+        <option value="$PROJECT_DIR$/src/Controller.java" />
       </list>
     </option>
   </component>
@@ -624,7 +627,14 @@
       <option name="project" value="LOCAL" />
       <updated>1460981425622</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="-UI and Controller implemented and ByteWrapper used instead of long">
+      <created>1460981662720</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1460981662720</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -676,7 +686,8 @@
     <MESSAGE value="building interface write and read on progress" />
     <MESSAGE value="read and write interface stage-1 completed with minor bug of EOF/less 1 char to read" />
     <MESSAGE value="-UI and Controller implemented&#10;-ByteWrapper used instead of long" />
-    <option name="LAST_COMMIT_MESSAGE" value="-UI and Controller implemented&#10;-ByteWrapper used instead of long" />
+    <MESSAGE value="-UI and Controller implemented and ByteWrapper used instead of long" />
+    <option name="LAST_COMMIT_MESSAGE" value="-UI and Controller implemented and ByteWrapper used instead of long" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -783,7 +794,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1245">
           <caret line="85" column="37" selection-start-line="84" selection-start-column="60" selection-end-line="85" selection-end-column="37" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -801,13 +814,13 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1762#1763#0" expanded="false" />
-            <element signature="e#1816#1817#0" expanded="false" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#1728#1729#0" expanded="false" />
+            <element signature="e#1782#1783#0" expanded="false" />
+            <element signature="e#2531#2532#0" expanded="false" />
             <element signature="e#2565#2566#0" expanded="false" />
-            <element signature="e#2599#2600#0" expanded="false" />
-            <element signature="e#2629#2630#0" expanded="false" />
-            <element signature="e#2664#2665#0" expanded="false" />
+            <element signature="e#2595#2596#0" expanded="false" />
+            <element signature="e#2630#2631#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -851,17 +864,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dd/ddt.c" />
-    <entry file="file://$PROJECT_DIR$/src/ListPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="22" column="37" selection-start-line="22" selection-start-column="37" selection-end-line="22" selection-end-column="37" />
-          <folding>
-            <element signature="e#703#704#0" expanded="false" />
-            <element signature="e#730#731#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/StatusPanel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -944,31 +946,43 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/InterfacePanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1545">
-          <caret line="107" column="67" selection-start-line="107" selection-start-column="57" selection-end-line="107" selection-end-column="67" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="20" column="18" selection-start-line="20" selection-start-column="18" selection-end-line="20" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/MainWindow.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+        <state relative-caret-position="405">
+          <caret line="31" column="21" selection-start-line="31" selection-start-column="21" selection-end-line="31" selection-end-column="21" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#416#417#0" expanded="true" />
             <element signature="e#439#440#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/InterfacePanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1605">
+          <caret line="107" column="67" selection-start-line="107" selection-start-column="57" selection-end-line="107" selection-end-column="67" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ListPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="22" column="37" selection-start-line="22" selection-start-column="37" selection-end-line="22" selection-end-column="37" />
+          <folding />
         </state>
       </provider>
     </entry>

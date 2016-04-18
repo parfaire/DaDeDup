@@ -1,6 +1,4 @@
 
-import groovy.json.internal.Byt;
-
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.HashMap;
