@@ -1,20 +1,23 @@
 import java.io.*;
-import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.HashMap;
 
 class Interface {
-    static void write(String out, String storage, HashMap<Long,Data> ddt, HashMap<String,Long> init){
+    static void read(String out, String storage, HashMap<ByteWrapper,Data> ddt, HashMap<String,ByteWrapper> init){
         try {
-            byte[] bytes;
-            int offset,len;
-            Long initial,next;
+            byte[] block;
+            long offset;
+            int len;
+            ByteWrapper initial,next;
             Data data;
             String str;
 
             File fout = new File(out);
             String outName = fout.getName();
+
+            //clean file first
+            PrintWriter pw = new PrintWriter(out);
+            pw.close();
             if(!init.containsKey(outName)){
                 System.err.println("File requested does not exist.");
             }else {
@@ -29,10 +32,9 @@ class Interface {
                 len = data.getLen();
                 //READ
                 read.seek(offset);
-                bytes = new byte[len];
-                read.read(bytes);
-                str = new String(bytes, StandardCharsets.UTF_8);
-                System.out.print(str+"|");
+                block = new byte[len];
+                read.read(block);
+                fos.write(block,0,len);
 
                 //next block sequences
                 while( (next = data.getNext(outName)) != null){
@@ -41,14 +43,23 @@ class Interface {
                     len = data.getLen();
                     //READ
                     read.seek(offset);
-                    bytes = new byte[len];
-                    System.out.print(len);
-                    read.read(bytes);
-                    str = new String(bytes, StandardCharsets.UTF_8);
-                    System.out.print(str+"|");
+                    block = new byte[len];
+                    read.read(block);
+                    fos.write(block,0,len);
 
                 }
-                //
+                //write last piece
+                if(next != null){
+                    data = ddt.get(next);
+                    offset = data.getOffset();
+                    len = data.getLen();
+                    //READ
+                    read.seek(offset);
+                    block = new byte[len];
+                    read.read(block);
+                    fos.write(block,0,len);
+                }
+
 
                 fos.close();
                 read.close();
@@ -59,16 +70,18 @@ class Interface {
 
     }
 
-    static public void read(String input, String storage, HashMap<Long,Data> ddt, HashMap<String,Long> init, String hashFunc, int blockSize){
+    static public void write(String input, String storage, HashMap<ByteWrapper,Data> ddt, HashMap<String,ByteWrapper> init, String hashFunc, int blockSize){
         try {
             MessageDigest digest = MessageDigest.getInstance(hashFunc);
             File fin = new File(input);
+            File storageFile = new File(storage);
             FileInputStream fis = new FileInputStream(fin);
-            FileOutputStream fos = new FileOutputStream(new File(storage), true);
+            RandomAccessFile fos = new RandomAccessFile(storage, "rw");
+            fos.seek(storageFile.length());
             byte[] block = new byte[blockSize];
-            byte[] hashedBytes,prevHashedBytes;
-            long prevHB=0,HB;
-            int prevI, i, offset = 0;
+            byte[] hashedBytes,prevHashedBytes=null;
+            int prevI, i;
+            long offset=0;
             String in = fin.getName();
 
             //FIRST RECORD
@@ -76,37 +89,42 @@ class Interface {
                 //convert block to hash
                 digest.update(block,0,i);
                 prevHashedBytes = digest.digest();
-                prevHB = ByteBuffer.wrap(prevHashedBytes).getLong();
                 //store into init table if new file
                 if(!init.containsKey(in))
-                    init.put(in,prevHB);
+                    init.put(in,new ByteWrapper(prevHashedBytes));
                 //write the block to storage
-                if(!ddt.containsKey(prevHB))
+                if(!ddt.containsKey(new ByteWrapper(prevHashedBytes))){
+                    offset = fos.getFilePointer();
                     fos.write(block,0,i);
+                }
             }
             prevI = i;
             while ((i = fis.read(block)) != -1) {
                 //convert block to hash
                 digest.update(block,0,i);
                 hashedBytes = digest.digest();
-                HB = ByteBuffer.wrap(hashedBytes).getLong();
 
                 //check duplicate
-                if(ddt.containsKey(prevHB)){
-                    System.out.println("DUPLICATE BLOCK - DETECTED");
-                    ddt.get(prevHB).add(in,HB);
+                if(ddt.containsKey(new ByteWrapper(prevHashedBytes))) {
+                    ddt.get(new ByteWrapper(prevHashedBytes)).add(in, new ByteWrapper(hashedBytes));
+                    //if hashbyte as pointer is different write it down to the storage
+                    if (!ddt.containsKey(new ByteWrapper(hashedBytes))) {
+                        offset = fos.getFilePointer();
+                        fos.write(block, 0, i);
+                    }
                 }else{
                     //update ddt record & write the block to storage
-                    ddt.put(prevHB, new Data(in, HB, offset, prevI));
+                    ddt.put(new ByteWrapper(prevHashedBytes), new Data(in, new ByteWrapper(hashedBytes), offset, prevI));
+                    offset = fos.getFilePointer();
                     fos.write(block,0,i);
-                    offset += i;
                 }
-                prevHB = HB;
+                prevHashedBytes=hashedBytes;
                 prevI = i;
             }
             //LAST RECORD
-            if (offset>0) //anticipate of no record
-                ddt.put(prevHB, new Data(in, null, offset, prevI));
+            if (offset>0) { //anticipate of no record
+                ddt.put(new ByteWrapper(prevHashedBytes), new Data(in, null, offset, prevI));
+            }
             fos.close();
             fis.close();
         } catch (Exception e) {
@@ -123,7 +141,7 @@ class Interface {
             oos.close();
             fos.close();
         } catch (Exception ex) {
-            System.out.print("There is an issue on saving object.");
+            System.out.println("There is an issue on saving object.");
             //ex.printStackTrace();
         }
     }
@@ -137,7 +155,7 @@ class Interface {
             ois.close();
             fis.close();
         } catch (Exception ex) {
-            System.out.print("There is no existing object to be load.");
+            System.out.println("There is no existing object to be load.");
             //ex.printStackTrace();
         }
         return o;
