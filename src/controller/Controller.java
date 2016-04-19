@@ -1,3 +1,10 @@
+package controller;
+
+import customclass.Book;
+import customclass.Data;
+import customclass.Ddt;
+import customclass.Interface;
+import ui.MainWindow;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -8,55 +15,65 @@ public class Controller {
     private String PATH = "/Users/parfaire/IdeaProjects/DataDeduplication/dd/";
     private String storage = PATH+"storage.txt";
     private String ddtfile = PATH+"ddt.txt";
-    private String initialfile = PATH+"init.txt";
+    private String bookfile = PATH+"book.txt";
     private String hashFunc = "SHA-256";
     private int blockSize = 4096;
 	private MainWindow mainWindow;
-    private HashMap<ByteWrapper, Data> ddt;
-    private HashMap<String, ByteWrapper> init;
+    private Ddt ddt = new Ddt();
+    private Book book = new Book();
 	
 	public Controller(MainWindow mainWindow) {
 		this.mainWindow = mainWindow;
-        try{ddt = (HashMap<ByteWrapper,Data>) Interface.loadObj(ddtfile);} catch(Exception e){ ddt = new HashMap<>();}
-        try{init = (HashMap<String,ByteWrapper>) Interface.loadObj(initialfile);} catch(Exception e){init = new HashMap<>();}
+        try{
+            ddt.read(ddtfile);
+            book.read(bookfile);
+        } catch(Exception e){
+            System.err.println("There is no ddt and book to be loaded.");
+        }
+
         refreshStatus();
 	}
 	
 	public void refreshStatus() {
         Long d = new File(ddtfile).length();
-        Long i = new File(initialfile).length();
+        Long b = new File(bookfile).length();
         Long s = new File(storage).length();
-        Long tot = d+i+s;
+        Long tot = d+b+s;
 		mainWindow.getStatusPanel().setLblDdt(d);
-        mainWindow.getStatusPanel().setLblInit(i);
+        mainWindow.getStatusPanel().setLblBook(b);
         mainWindow.getStatusPanel().setLblStorage(s);
         mainWindow.getStatusPanel().setLblTotal(tot);
         mainWindow.getStatusPanel().setTfDdt(ddtfile);
-        mainWindow.getStatusPanel().setTfInit(initialfile);
+        mainWindow.getStatusPanel().setTfBook(bookfile);
         mainWindow.getStatusPanel().setTfStorage(storage);
         mainWindow.getStatusPanel().updateUI();
         setList();
 	}
 
     public void updateStatus() {
-        Interface.saveObj(ddtfile,ddt);
-        Interface.saveObj(initialfile,init);
+        try {
+            ddt.write(ddtfile);
+            book.write(bookfile);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         refreshStatus();
     }
 
-    public void read(String input){
-        Interface.read(input,storage,ddt,init);
+    public void read(String output){
+        Interface.read(output,storage,book,blockSize);
     }
 
-    public void write(String output){
-        Interface.write(output,storage,ddt,init,hashFunc,blockSize);
+    public void write(String input){
+        Interface.write(input,storage,ddt,book,hashFunc,blockSize);
         updateStatus();
     }
 
-    public void setList(){
-        String[] filenames = new String[init.size()];
+    private void setList(){
+        HashMap<String,Data> bookRecords= book.getBookRecords();
+        String[] filenames = new String[bookRecords.size()];
         int i=0;
-        for(String name : init.keySet()) {
+        for(String name : bookRecords.keySet()) {
             filenames[i++] = name;
         }
         mainWindow.getListPanel().getList().setListData(filenames);
@@ -76,21 +93,21 @@ public class Controller {
         return showHM(ddt);
     }
 
-    public String getinit(){
-        return showHM(init);
+    public String getbook(){
+        return showHM(book.getBookRecords());
     }
 
     public void clearData(){
         System.out.println("Data is cleared");
         try{
-            PrintWriter pw = new PrintWriter(initialfile);
+            PrintWriter pw = new PrintWriter(bookfile);
             pw.close();
             pw = new PrintWriter(ddtfile);
             pw.close();
             pw = new PrintWriter(storage);
             pw.close();
-            ddt = new HashMap<>();
-            init = new HashMap<>();
+            ddt = new Ddt();
+            book = new Book();
         }catch(Exception e){
             e.printStackTrace();
         }

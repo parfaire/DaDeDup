@@ -1,15 +1,9 @@
+package ui;
+
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableModel;
-
 
 
 public class ListPanel extends JPanel {
@@ -19,7 +13,7 @@ public class ListPanel extends JPanel {
 	private JScrollPane scrollPane;
 	private JList<String> list;
 	
-	public ListPanel(MainWindow mainWindow) {
+	ListPanel(MainWindow mainWindow) {
 		this.mainWindow = mainWindow;
 		setComponents();
 	}
@@ -28,7 +22,7 @@ public class ListPanel extends JPanel {
         return list;
     }
 
-	public void setComponents() {
+	void setComponents() {
 		TitledBorder listTitle = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), SERVER_LIST_LABEL);
 		setBorder(listTitle);
         list = new JList<>();

@@ -1,3 +1,7 @@
+package ui;
+
+import controller.Controller;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
@@ -10,8 +14,7 @@ public class MainWindow extends JFrame implements WindowListener{
 	private InterfacePanel interfacePanel;
 	private ListPanel listPanel;
 	private StatusPanel statusPanel;
-	
-	Controller controller;
+	private Controller controller;
 
 	public ListPanel getListPanel() {
 		return listPanel;
@@ -21,7 +24,7 @@ public class MainWindow extends JFrame implements WindowListener{
 		return statusPanel;
 	}
 
-	public Controller getController() {
+	Controller getController() {
 		return controller;
 	}
 	
@@ -36,7 +39,7 @@ public class MainWindow extends JFrame implements WindowListener{
 		addWindowListener(this);
 	}
 	
-	public void setupComponents() {
+	private void setupComponents() {
 		this.setMinimumSize(MIN_FRAME_SIZE);
 		
 		// Panels

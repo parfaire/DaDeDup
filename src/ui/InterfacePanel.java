@@ -1,3 +1,5 @@
+package ui;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
@@ -5,8 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class InterfacePanel extends JPanel {
-	private final String INTERFACE_LABEL = "Interface";
+class InterfacePanel extends JPanel {
+	private final String INTERFACE_LABEL = "customclass.Interface";
 	private final String READ_GROUP_LABEL = "Read";
     private final String READ_LABEL1 = "Path";
     private final String READ_LABEL2 = "Filename";
@@ -35,12 +37,12 @@ public class InterfacePanel extends JPanel {
     private JLabel writeLbl;
     private JButton writeSubmit;
 	
-	public InterfacePanel(MainWindow mainWindow) {
+    InterfacePanel(MainWindow mainWindow) {
 		this.mainWindow = mainWindow;
 		setComponents();
 	}
 	
-	public void setComponents() {
+	private void setComponents() {
         readFilename = new JTextField("", TEXT_FIELD_WTDTH);
 		readPathText = new JTextField("", TEXT_FIELD_WTDTH);
 		readPathText.setEditable(false);

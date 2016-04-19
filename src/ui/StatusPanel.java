@@ -1,12 +1,9 @@
+package ui;
+
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.LinkedHashMap;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
 
 public class StatusPanel extends JPanel {
 
@@ -14,16 +11,16 @@ public class StatusPanel extends JPanel {
 	private final int TEXT_FIELD_WTDTH = 45;
     private MainWindow mainWindow;
 	private JPanel panelDdt;
-	private JPanel panelInit;
+	private JPanel panelBook;
 	private JPanel panelStorage;
 	private JPanel panelAction;
 	private JButton btnUpdate;
 	private JButton btnRefresh;
 	private JTextField tfDdt;
-	private JTextField tfInit;
+	private JTextField tfBook;
 	private JTextField tfStorage;
     private JLabel lblDdt;
-    private JLabel lblInit;
+    private JLabel lblBook;
     private JLabel lblStorage;
     private JLabel lblTotal;
 
@@ -39,16 +36,16 @@ public class StatusPanel extends JPanel {
         this.lblDdt.setText(l +" bytes");
     }
 
-    public void setLblInit(long l) {
-        this.lblInit.setText(l +" bytes");
+    public void setLblBook(long l) {
+        this.lblBook.setText(l +" bytes");
     }
 
     public void setTfDdt(String s) {
         this.tfDdt.setText(s);
     }
 
-    public void setTfInit(String s) {
-        this.tfInit.setText(s);
+    public void setTfBook(String s) {
+        this.tfBook.setText(s);
     }
 
     public void setTfStorage(String s) {
@@ -56,12 +53,12 @@ public class StatusPanel extends JPanel {
     }
 
 	
-	public StatusPanel(MainWindow mainWindow) {
+	StatusPanel(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
 		this.setComponents();
 	}
 	
-	public void setComponents() {
+	private void setComponents() {
 		//title
 		TitledBorder joblistTitle = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), this.LABEL);
 		this.setBorder(joblistTitle);
@@ -69,12 +66,12 @@ public class StatusPanel extends JPanel {
 		//components
 		tfDdt = new JTextField("", TEXT_FIELD_WTDTH);
         tfDdt.setEditable(false);
-		tfInit = new JTextField("", TEXT_FIELD_WTDTH);
-        tfInit.setEditable(false);
+		tfBook = new JTextField("", TEXT_FIELD_WTDTH);
+        tfBook.setEditable(false);
 		tfStorage = new JTextField("", TEXT_FIELD_WTDTH);
         tfStorage.setEditable(false);
         lblDdt = new JLabel("");
-        lblInit = new JLabel("");
+        lblBook = new JLabel("");
         lblStorage = new JLabel("");
         lblTotal = new JLabel("");
 		btnUpdate = new JButton("Update");
@@ -95,12 +92,12 @@ public class StatusPanel extends JPanel {
         TitledBorder title = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "DDT");
         panelDdt.setBorder(title);
 
-		panelInit = new JPanel();
-		panelInit.setLayout(new FlowLayout());
-		panelInit.add(tfInit);
-        panelInit.add(lblInit);
-        title = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Initial Table");
-        panelInit.setBorder(title);
+		panelBook = new JPanel();
+		panelBook.setLayout(new FlowLayout());
+		panelBook.add(tfBook);
+        panelBook.add(lblBook);
+        title = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Book");
+        panelBook.setBorder(title);
 
 		panelStorage = new JPanel();
 		panelStorage.setLayout(new FlowLayout());
@@ -117,7 +114,7 @@ public class StatusPanel extends JPanel {
 		// Layout
 		setLayout(new GridLayout(5,1));
         add(panelDdt);
-        add(panelInit);
+        add(panelBook);
         add(panelStorage);
         add(lblTotal);
         add(panelAction);
