@@ -1,60 +1,110 @@
 package ui;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
+import static jdk.nashorn.internal.objects.NativeMath.round;
+
 public class StatusPanel extends JPanel {
+    private long total;
+    private long expectedTotal;
 
 	private final String LABEL = "Status";
-	private final int TEXT_FIELD_WTDTH = 45;
+	private final int TEXT_FIELD_WTDTH = 40;
+
     private MainWindow mainWindow;
+
 	private JPanel panelDdt;
-	private JPanel panelBook;
-	private JPanel panelStorage;
-	private JPanel panelAction;
-	private JButton btnUpdate;
-	private JButton btnRefresh;
+	private JPanel panelRecord;
+	private JPanel panelFolder;
+    private JPanel panelStorage;
+    private JPanel panelTotal;
+    private JPanel panelConf;
+    private JPanel panelLeft;
+
+    private JTextField tfBlockSize;
 	private JTextField tfDdt;
-	private JTextField tfBook;
+	private JTextField tfRecord;
+    private JTextField tfFolder;
 	private JTextField tfStorage;
+
+    private JLabel lblBlockSize;
     private JLabel lblDdt;
-    private JLabel lblBook;
+    private JLabel lblRecord;
+    private JLabel lblFolder;
     private JLabel lblStorage;
     private JLabel lblTotal;
+    private JLabel lblExpectedTotal;
+    private JLabel lblDedup;
+    private JLabel lblMemory;
+
+    private JButton btnSave;
+    private JButton btnClear;
+    private NumberFormat format = NumberFormat.getInstance();
+
+    public void setLblDedup() {
+        double d = (double)expectedTotal/(double)total;
+        String decimal4 = String.format("%.4f",d);
+        this.lblDedup.setText("Deduplication ratio : "+ decimal4);
+    }
+
+    public void setLblExpectedTotal(long l) {
+        expectedTotal = l;
+        this.lblExpectedTotal.setText("Expected Total : " + format.format(l / 1024) +" KB");
+    }
 
     public void setLblTotal(long l) {
-        this.lblTotal.setText("Total : " + l +" bytes");
+        total = l;
+        this.lblTotal.setText("Total : " + format.format(l / 1024) +" KB");
     }
 
     public void setLblStorage(long l) {
-        this.lblStorage.setText(l +" bytes");
+
+        this.lblStorage.setText(format.format(l / 1024) +" KB");
     }
 
     public void setLblDdt(long l) {
-        this.lblDdt.setText(l +" bytes");
+        this.lblDdt.setText(format.format(l / 1024) +" KB");
     }
 
-    public void setLblBook(long l) {
-        this.lblBook.setText(l +" bytes");
+    public void setLblFolder(long l) {
+        this.lblFolder.setText(format.format(l / 1024) +" KB");
+    }
+
+    public void setLblRecord(long l) {
+        this.lblRecord.setText(format.format(l / 1024) +" KB");
+    }
+
+    public void setLblMemory(String s) {
+        this.lblMemory.setText(s);
     }
 
     public void setTfDdt(String s) {
         this.tfDdt.setText(s);
     }
 
-    public void setTfBook(String s) {
-        this.tfBook.setText(s);
+    public void setTfRecord(String s) {
+        this.tfRecord.setText(s);
+    }
+
+    public void setTfFolder(String s) {
+        this.tfFolder.setText(s);
     }
 
     public void setTfStorage(String s) {
         this.tfStorage.setText(s);
     }
 
+    public void setTfBlokcSize(int i){tfBlockSize.setText(i+"");}
+
 	
 	StatusPanel(MainWindow mainWindow) {
-        this.mainWindow = mainWindow;
+        this.mainWindow=mainWindow;
 		this.setComponents();
 	}
 	
@@ -66,24 +116,22 @@ public class StatusPanel extends JPanel {
 		//components
 		tfDdt = new JTextField("", TEXT_FIELD_WTDTH);
         tfDdt.setEditable(false);
-		tfBook = new JTextField("", TEXT_FIELD_WTDTH);
-        tfBook.setEditable(false);
+		tfRecord = new JTextField("", TEXT_FIELD_WTDTH);
+        tfRecord.setEditable(false);
+        tfFolder = new JTextField("", TEXT_FIELD_WTDTH);
+        tfFolder.setEditable(false);
 		tfStorage = new JTextField("", TEXT_FIELD_WTDTH);
         tfStorage.setEditable(false);
+        tfBlockSize = new JTextField("", 20);
         lblDdt = new JLabel("");
-        lblBook = new JLabel("");
+        lblRecord = new JLabel("");
+        lblFolder = new JLabel("");
         lblStorage = new JLabel("");
         lblTotal = new JLabel("");
-		btnUpdate = new JButton("Update");
-        btnUpdate.addActionListener(e -> {
-            mainWindow.getController().updateStatus();
-            JOptionPane.showMessageDialog(null, "Updated");
-        });
-		btnRefresh = new JButton("Refresh");
-        btnRefresh.addActionListener(e -> {
-            mainWindow.getController().refreshStatus();
-            JOptionPane.showMessageDialog(null, "Refreshed");
-        });
+        lblExpectedTotal = new JLabel("");
+        lblDedup = new JLabel("");
+        lblMemory = new JLabel("");
+        lblBlockSize = new JLabel("Block Size (bit)");
 
 		panelDdt = new JPanel();
 		panelDdt.setLayout(new FlowLayout());
@@ -92,12 +140,19 @@ public class StatusPanel extends JPanel {
         TitledBorder title = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "DDT");
         panelDdt.setBorder(title);
 
-		panelBook = new JPanel();
-		panelBook.setLayout(new FlowLayout());
-		panelBook.add(tfBook);
-        panelBook.add(lblBook);
-        title = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Book");
-        panelBook.setBorder(title);
+		panelRecord = new JPanel();
+        panelRecord.setLayout(new FlowLayout());
+        panelRecord.add(tfRecord);
+        panelRecord.add(lblRecord);
+        title = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Record");
+        panelRecord.setBorder(title);
+
+        panelFolder = new JPanel();
+        panelFolder.setLayout(new FlowLayout());
+        panelFolder.add(tfFolder);
+        panelFolder.add(lblFolder);
+        title = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Folder");
+        panelFolder.setBorder(title);
 
 		panelStorage = new JPanel();
 		panelStorage.setLayout(new FlowLayout());
@@ -106,18 +161,32 @@ public class StatusPanel extends JPanel {
         title= BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Storage");
         panelStorage.setBorder(title);
 
-		panelAction = new JPanel();
-		panelAction.setLayout(new FlowLayout());
-		panelAction.add(btnRefresh);
-		panelAction.add(btnUpdate);
-		
-		// Layout
-		setLayout(new GridLayout(5,1));
-        add(panelDdt);
-        add(panelBook);
-        add(panelStorage);
-        add(lblTotal);
-        add(panelAction);
+        panelTotal = new JPanel();
+        panelTotal.setLayout(new GridLayout(3,1));
+        panelTotal.add(lblExpectedTotal);
+        panelTotal.add(lblTotal);
+        panelTotal.add(lblDedup);
+
+        panelConf = new JPanel();
+        panelConf.setLayout(new GridLayout(5,1));
+        panelConf.add(lblBlockSize);panelConf.add(tfBlockSize);
+        btnSave = new JButton("Save");
+        btnSave.addActionListener(e -> mainWindow.getController().saveConf(tfBlockSize.getText()));
+        btnClear = new JButton("Clear data");
+        btnClear.addActionListener(e -> mainWindow.getController().clearData());
+        panelConf.add(btnSave);panelConf.add(btnClear);
+        panelConf.add(panelTotal);
+
+        panelLeft = new JPanel();
+        panelLeft.setLayout(new GridLayout(4,1));
+        panelLeft.add(panelDdt);
+        panelLeft.add(panelRecord);
+        panelLeft.add(panelFolder);
+        panelLeft.add(panelStorage);
+
+        add(panelLeft,BorderLayout.CENTER);
+        add(panelConf,BorderLayout.EAST);
+        add(lblMemory, BorderLayout.WEST);
 		setVisible(true);
 	}
 }

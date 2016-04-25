@@ -12,19 +12,16 @@ public class MainWindow extends JFrame implements WindowListener{
 	private final Dimension MIN_FRAME_SIZE = new Dimension(1280, 640);
 	
 	private InterfacePanel interfacePanel;
-	private ListPanel listPanel;
 	private StatusPanel statusPanel;
 	private Controller controller;
 
-	public ListPanel getListPanel() {
-		return listPanel;
-	}
+	public InterfacePanel getInterfacePanel() { return interfacePanel; }
 
 	public StatusPanel getStatusPanel() {
 		return statusPanel;
 	}
 
-	Controller getController() {
+	public Controller getController() {
 		return controller;
 	}
 	
@@ -44,17 +41,14 @@ public class MainWindow extends JFrame implements WindowListener{
 		
 		// Panels
 		this.interfacePanel = new InterfacePanel(this);
-		this.listPanel = new ListPanel(this);
 		this.statusPanel = new StatusPanel(this);
 		
 		// Layout
 		this.setLayout(new BorderLayout());
 		this.getContentPane().add(this.interfacePanel, BorderLayout.PAGE_START);
-		this.interfacePanel.setPreferredSize(new Dimension(this.getWidth(), (int)(this.getHeight()*0.4)));
-		this.getContentPane().add(this.listPanel, BorderLayout.WEST);
-		this.listPanel.setPreferredSize(new Dimension((int)(this.getWidth()*0.4), this.getHeight()));
+		this.interfacePanel.setPreferredSize(new Dimension(this.getWidth(), (int)(this.getHeight()*0.6)));
 		this.getContentPane().add(this.statusPanel, BorderLayout.CENTER);
-		this.statusPanel.setPreferredSize(new Dimension((int)(this.getWidth()*0.6), this.getHeight()));
+		this.statusPanel.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()));
 		
 		
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);

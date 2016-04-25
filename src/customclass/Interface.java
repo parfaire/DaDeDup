@@ -6,21 +6,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Interface {
-    public static void read(String out, String storage, Book book, int blocksize){
+    public static void read(String target, String folderAndFileName, String storage, Book book, int blocksize){
         try {
             byte[] block;
-            //create clean output file
-            File fout = new File(out);
-            PrintWriter pw = new PrintWriter(out);
-            pw.close();
-            String filename = fout.getName();
-
-            if(!book.containsRecord(filename)){
-                System.err.println(filename+" does not exist.");
-            }else {
+            target = target+"/"+folderAndFileName;
+            File fout = new File(target);
+            File parent = fout.getParentFile();
+            if(!parent.exists() && !parent.mkdirs()){
+                throw new IllegalStateException("Couldn't create dir: " + parent);
+            }
+            if(book.containsRecord(folderAndFileName)){
+                PrintWriter pw = new PrintWriter(target);
+                pw.close();
                 RandomAccessFile raf = new RandomAccessFile(storage, "r");
                 FileOutputStream fos = new FileOutputStream(fout, true);
-                Data data = book.getRecord(filename);
+                Data data = book.getRecord(folderAndFileName);
                 long size = data.getSize();
                 List<Long> offsets = data.getOffsets();
                 for (Long offset : offsets){
@@ -41,10 +41,9 @@ public class Interface {
 
     }
 
-    public static void write(String input, String storage, Ddt ddt, Book book, String hashFunc, int blockSize){
+    public static void write(String folderAndFileName, File fin, String storage, Ddt ddt, Book book, String hashFunc, int blockSize){
         try {
             MessageDigest digest = MessageDigest.getInstance(hashFunc);
-            File fin = new File(input);
             File storageFile = new File(storage);
             FileInputStream fis = new FileInputStream(fin);
             RandomAccessFile raf = new RandomAccessFile(storage, "rw");
@@ -54,7 +53,6 @@ public class Interface {
             int i;
             long offset;
 
-            String filename = fin.getName();
             raf.seek(storageFile.length()); //append mode
 
             while((i = fis.read(block)) != -1){
@@ -73,7 +71,7 @@ public class Interface {
             raf.close();
             fis.close();
             Data data = new Data(offsets,fin.length());
-            book.addRecord(filename,data);
+            book.addRecord(folderAndFileName,data);
         } catch (Exception e) {
             e.printStackTrace();
         }

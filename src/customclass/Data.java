@@ -15,7 +15,7 @@ public class Data {
         return offsets;
     }
 
-    long getSize(){
+    public long getSize(){
         return size;
     }
 }
